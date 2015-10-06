@@ -15,7 +15,7 @@ import java.util.List;
 @Component
 public class UserDAO implements IUserDAO{
     @Autowired
-    EntityManager em = new SpringContext().entityManager();
+    EntityManager em /*= new SpringContext().entityManager()*/;
 
 
     @Override

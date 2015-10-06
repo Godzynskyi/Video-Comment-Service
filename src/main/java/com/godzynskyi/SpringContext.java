@@ -2,9 +2,12 @@ package com.godzynskyi;
 
 import com.godzynskyi.dao.IUserDAO;
 import com.godzynskyi.dao.UserDAO;
+import com.godzynskyi.service.IUserService;
+import com.godzynskyi.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.JstlView;
@@ -36,7 +39,7 @@ public class SpringContext {
 //        return new CommonsMultipartResolver();
 //    }
 
-    @Bean
+    @Bean(name = "em")
     public EntityManager entityManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ServiceForVideoCommentsJPA");
         return emf.createEntityManager();
@@ -46,5 +49,8 @@ public class SpringContext {
     public IUserDAO userDao() {
         return new UserDAO();
     }
+
+    @Bean
+    public IUserService userService() {return new UserService(); }
 }
 

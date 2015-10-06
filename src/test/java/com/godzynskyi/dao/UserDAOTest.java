@@ -2,6 +2,8 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.SpringContext;
 import com.godzynskyi.domain.User;
+import org.aspectj.lang.annotation.Before;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -12,25 +14,23 @@ import static junit.framework.Assert.assertFalse;
  * Created by Java Developer on 30.09.2015.
  */
 public class UserDAOTest {
-    @Autowired
-    IUserDAO userDAO;
 
-//    {
-//        AnnotationConfigApplicationContext config = new AnnotationConfigApplicationContext();
-//        config.register(SpringContext.class);
-//        config.refresh();
-//    }
-
+//    AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(SpringContext.class);
+//
+//    IUserDAO userDAO = new SpringContext().userDao();
+//
+//    @Test
 //    public void testAddUser() {
-//        User user = new User("ivan", "asdf", (short) 1);
+//        User user = new User("ivan", "asdf");
 //        userDAO.addUser(user);
 //        boolean isAdded = userDAO.addUser(new User("ivan", "qwer"));
 //        assertFalse(isAdded);
 //    }
 //
+//    @Test
 //    public void testGetUser() {
-//        userDAO.addUser(new User("ivan", "asdf", (short) 1));
-//        User user = userDAO.getUserByLogin("ivan");
+//        userDAO.addUser(new User("ivan", "asdf"));
+//        User user = userDAO.getUser("ivan");
 //        assertEquals(user.getPassword(), "asdf");
 //    }
 

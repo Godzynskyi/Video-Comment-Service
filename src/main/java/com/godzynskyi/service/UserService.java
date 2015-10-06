@@ -14,9 +14,9 @@ import javax.persistence.EntityManager;
 public class UserService implements IUserService{
 
     @Autowired
-    EntityManager em = new SpringContext().entityManager();
+    EntityManager em /*= new SpringContext().entityManager()*/;
     @Autowired
-    IUserDAO userDAO = new SpringContext().userDao();
+    IUserDAO userDAO /*= new SpringContext().userDao()*/;
 
     @Override
     public boolean isAuthorized(String login, String password) {
