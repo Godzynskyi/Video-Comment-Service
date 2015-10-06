@@ -16,26 +16,43 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column
+    @Column(unique = true)
     private String login;
 
     @Column
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "UserRoles")
-    private List<Short> roles;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<UserRole> roles;
 
-    public User(String login, String password, Short... role) {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<Document> userDocuments;
+
+
+    @OneToMany(mappedBy = "user")
+    private List<UserDocumentCredential> credentials;
+
+    public User(String login, String password, int... role) {
         this.login = login;
         this.password = password;
 
-        roles = new ArrayList<Short>(2);
-        if(role.length == 0) roles.add(UserRoles.USER_ROLE);
-        for(Short i: role) roles.add(i);
+        roles = new ArrayList<UserRole>(2);
+        if(role.length == 0) roles.add(new UserRole(1, this)); else for(int i: role) roles.add(new UserRole(i, this));
     }
+
+
+    public User() {}
 
     public long getId() {
         return id;
+    }
+
+    public List<Document> getUserDocuments() {
+        return userDocuments;
+    }
+
+    public void setUserDocuments(List<Document> userDocuments) {
+        this.userDocuments = userDocuments;
     }
 
     public String getLogin() {
@@ -46,7 +63,7 @@ public class User {
         return password;
     }
 
-    public List<Short> getRoles() {
+    public List<UserRole> getRoles() {
         return roles;
     }
 }
