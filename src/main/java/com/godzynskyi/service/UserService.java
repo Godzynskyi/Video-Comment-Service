@@ -1,50 +1,20 @@
 package com.godzynskyi.service;
 
-import com.godzynskyi.SpringContext;
-import com.godzynskyi.dao.IUserDAO;
+import com.godzynskyi.domain.Document;
 import com.godzynskyi.domain.User;
 import com.godzynskyi.validation.AddUserStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.EntityManager;
+import java.util.List;
 
 /**
  * Created by Java Developer on 04.10.2015.
  */
-public class UserService implements IUserService{
+public interface UserService {
 
-    @Autowired
-    EntityManager em /*= new SpringContext().entityManager()*/;
-    @Autowired
-    IUserDAO userDAO /*= new SpringContext().userDao()*/;
+    boolean isAuthorized(String login, String password);
 
-    @Override
-    public boolean isAuthorized(String login, String password) {
-        User user = userDAO.getUser(login);
-        if(user == null) return false;
-        String pass = user.getPassword();
-        if(!pass.equals(password)) return false;
-        return true;
-    }
+    AddUserStatus addNewUser(User user);
 
-    @Override
-    public AddUserStatus addNewUser(User user) {
-        AddUserStatus res = new AddUserStatus();
-        if(getUser(user.getLogin())!=null) {
-            res.setNotUserExist(false);
-            return res;
-        }
-        res.setAdded(userDAO.addUser(user));
-        return res;
-    }
-
-    @Override
-    public User getUser(String login) {
-        return userDAO.getUser(login);
-    }
-
-    @Override
-    public User getUser(long id) {
-        return getUser(id);
-    }
+    User getUser(String login);
+    User getUser(long id);
 }

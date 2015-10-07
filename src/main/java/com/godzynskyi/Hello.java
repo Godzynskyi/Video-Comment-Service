@@ -1,6 +1,6 @@
 package com.godzynskyi;
 
-import com.godzynskyi.dao.IUserDAO;
+import com.godzynskyi.dao.UserDAO;
 import com.godzynskyi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class Hello {
 
     @Autowired
-    IUserDAO userDAO;
+    UserDAO userDAO;
 
 
     public boolean testAddUser() {
@@ -35,7 +35,7 @@ public class Hello {
         config.refresh();
 
         Hello h = new Hello();
-        h.userDAO = new SpringContext().userDao();
+        h.userDAO = new SpringContext().userDAO();
 
 
         System.out.println(h.testAddUser());

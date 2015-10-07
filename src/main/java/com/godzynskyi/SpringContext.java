@@ -1,17 +1,10 @@
 package com.godzynskyi;
 
-import com.godzynskyi.dao.IUserDAO;
-import com.godzynskyi.dao.UserDAO;
-import com.godzynskyi.service.IUserService;
-import com.godzynskyi.service.UserService;
+import com.godzynskyi.dao.*;
+import com.godzynskyi.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.web.multipart.commons.CommonsMultipartResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -46,11 +39,42 @@ public class SpringContext {
     }
 
     @Bean
-    public IUserDAO userDao() {
-        return new UserDAO();
+    public UserDAO userDAO() {
+        return new UserDAOimpl();
     }
 
     @Bean
-    public IUserService userService() {return new UserService(); }
+    public UserService userService() {return new UserServiceImpl(); }
+
+    @Bean
+    public DocumentDAO documentDAO() {
+        return new DocumentDAOImpl();
+    }
+
+    @Bean
+    public DocumentService documentService() {
+        return new DocumentServiceImpl();
+    }
+
+    @Bean
+    public CommentDAO commentDAO() {
+        return new CommentDAOImpl();
+    }
+
+    @Bean
+    public CommentService commentService() {
+        return new CommentServiceImpl();
+    }
+
+    @Bean
+    public VideoDAO videoDAO() {
+        return new VideoDAOImpl();
+    }
+
+    @Bean
+    public VideoService videoService() {
+        return new VideoSevriceImpl();
+    }
+
 }
 

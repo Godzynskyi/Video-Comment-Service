@@ -19,4 +19,11 @@ public class Video {
 
     @Column(unique = true)
     private String url;
+
+    public Video(String url) {
+        this.url = url;
+    }
+
+    public Video() {
+    }
 }
