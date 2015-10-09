@@ -13,11 +13,11 @@ public class AddUserStatus {
     //Return false if User confirms password incorrect
     private boolean passwordsEquals=true;
 
-    public boolean isAdded() {
+    public boolean getIsAdded() {
         return isAdded;
     }
 
-    public boolean isValid() {
+    public boolean getIsValid() {
         return isValid;
     }
 

@@ -4,12 +4,14 @@ import com.godzynskyi.dao.CommentDAO;
 import com.godzynskyi.domain.Comment;
 import com.godzynskyi.domain.Document;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Created by Java Developer on 07.10.2015.
  */
+@Service
 public class CommentServiceImpl implements CommentService {
 
     @Autowired

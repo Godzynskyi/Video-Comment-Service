@@ -23,8 +23,8 @@ public class UserDAOTest {
 //    public void testAddUser() {
 //        User user = new User("ivan", "asdf");
 //        userDAO.addUser(user);
-//        boolean isAdded = userDAO.addUser(new User("ivan", "qwer"));
-//        assertFalse(isAdded);
+//        boolean getIsAdded = userDAO.addUser(new User("ivan", "qwer"));
+//        assertFalse(getIsAdded);
 //    }
 //
 //    @Test

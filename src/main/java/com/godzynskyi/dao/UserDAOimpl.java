@@ -2,7 +2,9 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -11,7 +13,7 @@ import java.util.List;
 /**
  * Created by Java Developer on 30.09.2015.
  */
-@Component
+@Repository
 public class UserDAOimpl implements UserDAO {
     @Autowired
     EntityManager em /*= new SpringContext().entityManager()*/;
@@ -21,6 +23,7 @@ public class UserDAOimpl implements UserDAO {
     public boolean addUser(User user) {
         try {
             em.getTransaction().begin();
+            user.setPassword(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()));
             em.persist(user);
             em.getTransaction().commit();
             return true;

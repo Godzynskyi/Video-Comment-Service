@@ -5,6 +5,7 @@ import com.godzynskyi.service.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -15,7 +16,6 @@ import javax.persistence.Persistence;
  */
 @Configuration
 @ComponentScan("com.godzynskyi")
-//@EnableWebMvc
 public class SpringContext {
 //    @Bean
 //    public UrlBasedViewResolver setupViewResolver() {
@@ -36,44 +36,6 @@ public class SpringContext {
     public EntityManager entityManager() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("ServiceForVideoCommentsJPA");
         return emf.createEntityManager();
-    }
-
-    @Bean
-    public UserDAO userDAO() {
-        return new UserDAOimpl();
-    }
-
-    @Bean
-    public UserService userService() {return new UserServiceImpl(); }
-
-    @Bean
-    public DocumentDAO documentDAO() {
-        return new DocumentDAOImpl();
-    }
-
-    @Bean
-    public DocumentService documentService() {
-        return new DocumentServiceImpl();
-    }
-
-    @Bean
-    public CommentDAO commentDAO() {
-        return new CommentDAOImpl();
-    }
-
-    @Bean
-    public CommentService commentService() {
-        return new CommentServiceImpl();
-    }
-
-    @Bean
-    public VideoDAO videoDAO() {
-        return new VideoDAOImpl();
-    }
-
-    @Bean
-    public VideoService videoService() {
-        return new VideoSevriceImpl();
     }
 
 }

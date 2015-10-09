@@ -2,6 +2,7 @@ package com.godzynskyi.dao;
 
 import com.godzynskyi.domain.Video;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * Created by Java Developer on 07.10.2015.
  */
+@Repository
 public class VideoDAOImpl implements VideoDAO {
 
     @Autowired

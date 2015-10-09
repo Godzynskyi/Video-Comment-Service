@@ -3,10 +3,12 @@ package com.godzynskyi.service;
 import com.godzynskyi.dao.VideoDAO;
 import com.godzynskyi.domain.Video;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * Created by Java Developer on 07.10.2015.
  */
+@Service
 public class VideoSevriceImpl implements VideoService {
     @Autowired
     VideoDAO videoDAO;

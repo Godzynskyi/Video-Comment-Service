@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+${myDocuments}
+${myDocumentCredentials}
+
+<a href="/createDocument">Create new list of comment</a>
+<br/>
+
+<h2>My documents:</h2>
+<table>
+    <tr th:each="doc : ${myDocuments}">
+        <td th:text="${{doc.getTitle()}}"></td>
+        <td th:href="'@/del?id=' + ${{doc.getId()}}">Delete</td>
+        <td th:text="${{doc.getStatus()}}"></td>
+    </tr>
+</table>
+
+<h2>Documents where you have credentials:</h2>
+<table>
+    <tr th:each="cred : ${myDocuments}">
+        <td th:href="${{cred.doc.title}}"></td>
+        <td th:text="${{cred.doc.status}}"></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

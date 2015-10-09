@@ -16,10 +16,10 @@ public class User {
     @Column(name = "user_id")
     private long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String login;
 
-    @Column
+    @Column(nullable = false)
     private String password;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
@@ -63,7 +63,15 @@ public class User {
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public List<UserRole> getRoles() {
         return roles;
+    }
+
+    public List<UserDocumentCredential> getCredentials() {
+        return credentials;
     }
 }

@@ -23,4 +23,12 @@ public class UserDocumentCredential {
 
     @Column
     private Credentials credentials;
+
+    public Document getDocument() {
+        return document;
+    }
+
+    public Credentials getCredentials() {
+        return credentials;
+    }
 }
