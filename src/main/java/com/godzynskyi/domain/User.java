@@ -13,7 +13,6 @@ public class User {
 
     @Id
     @GeneratedValue
-    @Column(name = "user_id")
     private long id;
 
     @Column(unique = true, nullable = false)
@@ -22,10 +21,10 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.EAGER)
     private List<UserRole> roles;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE} , mappedBy = "owner")
     private List<Document> userDocuments;
 
 

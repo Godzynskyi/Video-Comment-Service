@@ -54,14 +54,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User getUser(String login) {
-        return userDAO.getUser(login);
+    public User getUser(String login) { return userDAO.getUser(login);
     }
 
     @Override
     public User getUser(long id) {
-        return getUser(id);
+        return userDAO.getUser(id);
     }
+
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {

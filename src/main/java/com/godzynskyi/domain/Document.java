@@ -22,14 +22,14 @@ public class Document {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name = "id_owner", nullable = false)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(nullable = false, name = "owner_id")
     private User owner;
 
-    @OneToMany(mappedBy = "document")
+    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL)
     private List<UserDocumentCredential> credentials = new ArrayList<UserDocumentCredential>();
 
-    @OneToMany(mappedBy = "document", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "document", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new LinkedList<Comment>();
 
     @Column(nullable = false)
@@ -74,5 +74,9 @@ public class Document {
 
     public Status getStatus() {
         return status;
+    }
+
+    public User getOwner() {
+        return owner;
     }
 }

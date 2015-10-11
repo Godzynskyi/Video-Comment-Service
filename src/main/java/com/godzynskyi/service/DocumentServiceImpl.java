@@ -34,11 +34,16 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public List<Document> findDocuments(long userId) {
-        return null;
+        return documentDao.getDocuments(userId);
     }
 
     @Override
     public List<Document> findDocuments(long userId, String pattern) {
         return documentDao.getDocuments(userId, pattern);
+    }
+
+    @Override
+    public boolean deleteDocument(Document document) {
+        return documentDao.deleteDocument(document);
     }
 }

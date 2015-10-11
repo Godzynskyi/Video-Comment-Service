@@ -22,7 +22,7 @@ public class Comment implements Comparable<Comment> {
     private Video video;
 
     //index of comment for sorting comments in document
-    @Column
+    @Column(name= "_index")
     private int index;
 
     @Column(nullable = false)
@@ -35,7 +35,7 @@ public class Comment implements Comparable<Comment> {
     private int startTime;
 
     @Column(name = "end_time")
-    private Integer endTime;
+    private int endTime;
 
     @Column
     private String style;

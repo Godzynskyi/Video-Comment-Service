@@ -12,4 +12,6 @@ public interface DocumentService {
     Document getDocument(long id);
     List<Document> findDocuments(long userId);
     List<Document> findDocuments(long userId, String pattern);
+    boolean deleteDocument(Document document);
+
 }

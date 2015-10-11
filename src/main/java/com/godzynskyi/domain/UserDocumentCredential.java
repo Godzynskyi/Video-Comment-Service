@@ -31,4 +31,8 @@ public class UserDocumentCredential {
     public Credentials getCredentials() {
         return credentials;
     }
+
+    public User getUser() {
+        return user;
+    }
 }

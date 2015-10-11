@@ -39,6 +39,7 @@ public class UserDAOimpl implements UserDAO {
         List<User> user = (List<User>) query.getResultList();
         if(user.size()==0) return null;
         if(user.size()!=1) throw new RuntimeException("There more than one user with this login in Database");
+//        em.refresh(USER.GET(0));
         return user.get(0);
     }
 
@@ -46,5 +47,6 @@ public class UserDAOimpl implements UserDAO {
     public User getUser(long id) {
         return em.find(User.class, id);
     }
+
 
 }

@@ -3,7 +3,10 @@ package com.godzynskyi.controller;
 import com.godzynskyi.domain.Document;
 import com.godzynskyi.domain.User;
 import com.godzynskyi.domain.UserDocumentCredential;
+import com.godzynskyi.service.DocumentService;
+import com.godzynskyi.service.UserDocumentCredentialsService;
 import com.godzynskyi.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.SpringSessionContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,30 +22,31 @@ import java.util.List;
 @Controller
 public class MainController {
 
+    private static final Logger logger = Logger.getLogger(MainController.class);
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DocumentService documentService;
+
+    @Autowired
+    private UserDocumentCredentialsService userDocumentCredentialsService;
 
     @RequestMapping(value = "/")
     public ModelAndView main() {
         ModelAndView modelAndView = new ModelAndView();
+
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-
         User user = userService.getUser(username);
-        List<Document> myDocuments = user.getUserDocuments();
-        modelAndView.addObject(myDocuments);
-        for(Document document:myDocuments) {
-            System.out.println("id: " + document.getId());
-            System.out.println("Title: " + document.getTitle());
-            System.out.println();
-        }
 
-        List<UserDocumentCredential> myDocumentCredentials = user.getCredentials();
-        modelAndView.addObject(myDocumentCredentials);
-        for(UserDocumentCredential cred: myDocumentCredentials) {
-            System.out.println("Title:" + cred.getDocument());
-            System.out.println("Cred:" + cred.getCredentials());
-            System.out.println();
-        }
+//        List<Document> myDocuments = user.getUserDocuments();
+        List<Document> myDocuments = documentService.findDocuments(user.getId());
+        modelAndView.addObject("myDocuments", myDocuments);
+
+//        List<UserDocumentCredential> myDocumentCredentials = user.getCredentials();
+        List<UserDocumentCredential> myDocumentCredentials = userDocumentCredentialsService.getCredentials(user);
+        modelAndView.addObject("myDocumentCredentials", myDocumentCredentials);
 
         modelAndView.setViewName("main");
         return modelAndView;

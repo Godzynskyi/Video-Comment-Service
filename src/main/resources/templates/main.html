@@ -5,29 +5,38 @@
     <title></title>
 </head>
 <body>
-${myDocuments}
-${myDocumentCredentials}
 
-<a href="/createDocument">Create new list of comment</a>
+
+
+<a href="/create_document">Create new list of comment</a>
 <br/>
 
-<h2>My documents:</h2>
-<table>
-    <tr th:each="doc : ${myDocuments}">
-        <td th:text="${{doc.getTitle()}}"></td>
-        <td th:href="'@/del?id=' + ${{doc.getId()}}">Delete</td>
-        <td th:text="${{doc.getStatus()}}"></td>
-    </tr>
-</table>
+<div th:unless="${#lists.isEmpty(myDocuments)}">
+    <h2>My documents:</h2>
+    <table>
+        <tr th:each="doc : ${myDocuments}">
+            <td>
+                <h2>
+                    <a th:href="'/doc?id=' + ${doc.id}" th:text="${doc.title}">First</a>
+                </h2>
+            </td>
+            <td>
+                <a th:href="'/deldoc?id=' + ${doc.id}">Delete</a>
+            </td>
+            <td th:text="${{doc.getStatus()}}"></td>
+        </tr>
+    </table>
+</div>
 
-<h2>Documents where you have credentials:</h2>
-<table>
-    <tr th:each="cred : ${myDocuments}">
-        <td th:href="${{cred.doc.title}}"></td>
-        <td th:text="${{cred.doc.status}}"></td>
-    </tr>
-</table>
-
+<div th:unless="${#lists.isEmpty(myDocumentCredentials)}">
+    <h2>Documents that I have credentials:</h2>
+    <table>
+        <tr th:each="cred : ${myDocumentCredentials}">
+            <td th:text="${cred.document.title}"></td>
+            <td th:text="${cred.document.credentials}"></td>
+        </tr>
+    </table>
+</div>
 
 </body>
 </html>
