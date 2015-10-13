@@ -1,11 +1,14 @@
 package com.godzynskyi.dao;
 
 import com.godzynskyi.domain.Comment;
+import com.godzynskyi.domain.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -18,9 +21,13 @@ public class CommentDAOImpl implements CommentDAO {
     EntityManager em;
 
     @Override
-    public boolean addComment(Comment comment) {
+    public boolean addComment(Comment comment, int position) {
         try{
+            comment.setIndex(position);
             em.getTransaction().begin();
+            Query query = em.createQuery("update Comment c set c.index= c.index + 1 where c.index >= :position");
+            query.setParameter("position",position);
+            query.executeUpdate();
             em.persist(comment);
             em.getTransaction().commit();
             return true;
@@ -34,12 +41,6 @@ public class CommentDAOImpl implements CommentDAO {
     @Override
     public Comment getComment(long id) {
         return em.find(Comment.class, id);
-    }
-
-    @Override
-    public List<Comment> getCommentsFromIndex(long documentId, int index) {
-        Query query = em.createQuery("select c from Comment c where c.document = " + documentId + "and c.index >= " + index);
-        return query.getResultList();
     }
 
     @Override
@@ -69,4 +70,16 @@ public class CommentDAOImpl implements CommentDAO {
             return false;
         }
     }
+
+    @Override
+    public List<Comment> getComments(long docId) {
+        Query query = em.createQuery("select c from Comment c where c.document.id = :docId");
+        query.setParameter("docId", docId);
+        List<Comment> list = (List<Comment>) query.getResultList();
+        for(Comment c: list) em.refresh(c);
+        Collections.sort(list);
+        return list;
+    }
+
+
 }

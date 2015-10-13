@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <script src="jquery-1.11.3.min.js"></script>
+    <script>
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // 3. This function creates aniframe (and YouTube player)
+        //    after the API code downloads.
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '390',
+                width: '640',
+                videoId: 'M7lc1UVf-VE',
+                startSeconds: '5',
+                events: {
+                    'onReady': onPlayerReady,
+//                'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+        // 4. The API will call this function when the video player is ready.
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+        // 5. The API calls this function when the player's state changes.
+        //    The function indicates that when playing a video (state=1),
+        //    the player should play for six seconds and then stop.
+        var done = false;
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                setTimeout(stopVideo, 6000);
+                done = true;
+            }
+        }
+        function stopVideo() {
+            player.stopVideo();
+        }
+        function parseURL(url) {
+            var arr = url.split(' ');
+            arr = arr[0].split('#');
+            return arr[0].slice(-11);
+        }
+        function changeRef() {
+            var url=document.getElementById('url').value;
+            url= parseURL(url);
+            alert(url);
+            player.loadVideoById(url, 0, "large");
+        }
+        function getCurrentTime(id) {
+            var time = Math.floor(player.getCurrentTime());
+            document.getElementById(id).value = time;
+        }
+    </script>
+    <meta charset="UTF-8"/>
+    <title></title>
+    <style>
+        .h1 {
+            padding-left: 5pt;
+            font-size: 30pt;
+        }
+        .h2 {
+            padding-left: 15pt;
+            font-size: 20pt;
+        }
+        .h3 {
+            padding-left: 25pt;
+            font-size: 16pt;
+        }
+        .h4 {
+            padding-left: 35pt;
+            font-size: 14pt;
+        }
+        .h5 {
+            padding-left: 40pt;
+            font-size: 12pt;
+        }
+        .h6 {
+            padding-left: 45pt;
+            font-size: 10pt;
+        }
+    </style>
+</head>
+<body>
+<form>
+    Insert link from YouTube here:<br/>
+    <input type="text" id="url" size="60"/>
+    <input type="button" id="btn1" value="Load video" onclick="changeRef()"/>
+    <br/><br/>
+</form>
+
+<div id="player"></div>
+
+
+<form action="/add_comment" method="POST">
+    <table>
+        <tr>
+            <td><input type="button" value="get time" onclick="getCurrentTime('start_time')"/></td>
+            <td></td>
+            <td><input type="button" value="get time" onclick="getCurrentTime('end_time')"/></td>
+        </tr>
+        <tr>
+            <td>Start time:<br/>
+                <input type="text" id="start_time" name = "start_time" size="10"/>
+            </td>
+            <td>Comment:<br/>
+                <input type="text" id="short_comment" name = "comment" size="60"/>
+            </td>
+            <td>End time:<br/>
+                <input type="text" id="end_time" name="end_time" size="10"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="h1" style="padding-left: 0pt"><input type="radio" name="style" value="h1" checked="true"/>First</div>
+                <div class="h2" style="padding-left: 0pt"><input type="radio" name="style" value="h2" />Second</div>
+                <div class="h3" style="padding-left: 0pt"><input type="radio" name="style" value="h3" />Third</div>
+                <div class="h4" style="padding-left: 0pt"><input type="radio" name="style" value="h4" />Fourth</div>
+                <div class="h5" style="padding-left: 0pt"><input type="radio" name="style" value="h5" />Fifth</div>
+                <div class="h6" style="padding-left: 0pt"><input type="radio" name="style" value="h6" />Sixth</div>
+            </td>
+            <td>Description:<br/>
+                <textarea rows="10" cols="52" name="description"></textarea>
+            </td>
+            <td>
+                Position in list<br/>
+                ("" to add last):<br/>
+                <input type="text" name="position" size="10"/><br/><br/>
+                <input type="submit" id="submit" value="ADD"/>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" th:name="docId" th:value="${docId}"/>
+
+    <!--to do-->
+    <input type="hidden" name="url" th:value="M7lc1UVf-VE"/>
+
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+</form>
+
+<h1>Comments:</h1>
+<br/>
+
+<table>
+    <tr th:each="comment: ${comments}" th:id="${comment.index} + 'comment'">
+
+        <td th:text="${comment.index} + '. '">1</td>
+        <td><div th:class="${comment.style}" th:text="${comment.comment}" >Comment1</div></td>
+        <td><button>Show description</button></td>
+        <td><button>Watch</button></td>
+        <td><button>Edit</button></td>
+        <td><button>Add comment before</button></td>
+    </tr>
+    <tr>
+        <td ></td>
+        <td><button>Add</button></td>
+    </tr>
+</table>
+
+
+</body>
+</html>

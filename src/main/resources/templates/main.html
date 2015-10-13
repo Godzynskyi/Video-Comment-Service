@@ -21,7 +21,7 @@
                 </h2>
             </td>
             <td>
-                <a th:href="'/deldoc?id=' + ${doc.id}">Delete</a>
+                <a th:href="'/set_doc/' + ${doc.id}">Settings</a>
             </td>
             <td th:text="${{doc.getStatus()}}"></td>
         </tr>
@@ -33,7 +33,7 @@
     <table>
         <tr th:each="cred : ${myDocumentCredentials}">
             <td th:text="${cred.document.title}"></td>
-            <td th:text="${cred.document.credentials}"></td>
+            <td th:text="${cred.credentials}"></td>
         </tr>
     </table>
 </div>

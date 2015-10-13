@@ -13,11 +13,11 @@ public class UserDocumentCredential {
     @GeneratedValue
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="id_user")
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name="id_document")
     private Document document;
 
@@ -34,5 +34,18 @@ public class UserDocumentCredential {
 
     public User getUser() {
         return user;
+    }
+
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
+    }
+
+    public UserDocumentCredential(User user, Document document, Credentials credentials) {
+        this.user = user;
+        this.document = document;
+        this.credentials = credentials;
+    }
+
+    public UserDocumentCredential() {
     }
 }

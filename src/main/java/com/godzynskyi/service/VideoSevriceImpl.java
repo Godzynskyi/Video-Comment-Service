@@ -5,6 +5,8 @@ import com.godzynskyi.domain.Video;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 /**
  * Created by Java Developer on 07.10.2015.
  */
@@ -13,13 +15,14 @@ public class VideoSevriceImpl implements VideoService {
     @Autowired
     VideoDAO videoDAO;
 
+    @Transactional
     @Override
     public Video getVideo(String url) {
-        Video video = videoDAO.addVideo(url);
+        Video video = videoDAO.getVideo(url);
         if(video == null) {
-            video = videoDAO.getVideo(url);
+            videoDAO.addVideo(url);
         }
-        return video;
+        return videoDAO.getVideo(url);
     }
 
     @Override

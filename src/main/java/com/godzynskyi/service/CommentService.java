@@ -11,10 +11,11 @@ import java.util.List;
 public interface CommentService {
 
     // insert Comment in position of index
-    boolean createComment(Comment comment);
+    boolean createComment(Comment comment, int position);
 
     Comment getComment(long id);
 
     boolean removeComment(Comment comment);
     boolean changeComment(Comment comment);
+    List<Comment> getComments(long docId);
 }

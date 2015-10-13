@@ -12,6 +12,10 @@ import java.util.List;
  */
 public interface UserDocumentCredentialsDAO {
     Credentials getCredentials(long userId, long docId);
+    UserDocumentCredential getCredentials(User user, Document document);
     List<UserDocumentCredential> getCredentials(User user);
     List<UserDocumentCredential> getCredentials(Document document);
+    boolean addCredentials(UserDocumentCredential credentials);
+    boolean update(UserDocumentCredential credentials);
+    boolean delete(UserDocumentCredential userDocumentCredential);
 }

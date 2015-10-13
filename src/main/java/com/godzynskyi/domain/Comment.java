@@ -101,21 +101,16 @@ public class Comment implements Comparable<Comment> {
         this.style = style;
     }
 
+    public void setIndex(int i) {
+        index = i;
+    }
 
     public int getIndex() {
         return index;
     }
 
-    public void incrementIndex() {
-        index++;
-    }
-
-    public void decrementIndex() {
-        index--;
-    }
-
     @Override
     public int compareTo(Comment o) {
-        return o.index - this.index;
+        return this.index - o.index;
     }
 }

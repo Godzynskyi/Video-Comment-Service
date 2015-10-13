@@ -12,6 +12,10 @@ import java.util.List;
  */
 public interface UserDocumentCredentialsService {
     Credentials getCredentials(long userId, long docId);
+    UserDocumentCredential getUDCredentials(User user, Document document);
     List<UserDocumentCredential> getCredentials(User user);
     List<UserDocumentCredential> getCredentials(Document document);
+    boolean addCredentials(UserDocumentCredential uDCredentials);
+    boolean updateCredentials(UserDocumentCredential credentials);
+    boolean delete(UserDocumentCredential userDocumentCredential);
 }

@@ -26,37 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class LoginController {
 
-//    @Autowired
-//    private UserService userService;
-
-//    @RequestMapping(value = "/addUser")
-//        public ModelAndView addUser(
-//            @RequestParam(name = "login") String login,
-//            @RequestParam(name = "password") String password,
-//            @RequestParam(name = "role", required = false, defaultValue = "1") int role) {
-//
-//        User myUser = new User(login, password, role);
-//        AddUserStatus addUserStatus = userService.addNewUser(myUser);
-//        ModelAndView modelAndView = new ModelAndView("addUser");
-//        modelAndView.addObject("addUserStatus", addUserStatus);
-//        return modelAndView;
-//    }
-//
-    @RequestMapping(value = "/forms")
-    public String forms() {
-        return "forms";
-    }
-//
-//
-//    @RequestMapping(value = "/logInIsAuthorized")
-//    public String logIn(
-//            @RequestParam(name = "login") String login,
-//            @RequestParam(name = "password") String password,
-//            Model model) {
-//        boolean authorized = userService.isAuthorized(login, password);
-//        model.addAttribute("authorized", authorized);
-//        return "logIn";
-//    }
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
@@ -96,16 +67,51 @@ public class LoginController {
     // for 403 access denied page
     @RequestMapping(value = "/403", method = RequestMethod.GET)
     public ModelAndView accesssDenied() {
-
         ModelAndView model = new ModelAndView();
-
         // check if user is login
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             model.addObject("username", auth.getName());
-
-
-                model.setViewName("403");
+            model.setViewName("403");
         return model;
 
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.GET)
+    public String register(Model model) {
+        model.addAttribute("msg",new String(""));
+        return "register";
+    }
+
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    public String register(
+            @RequestParam(name = "username") String username,
+            @RequestParam(name = "password") String password,
+            @RequestParam(name = "password1") String password1,
+            Model model) {
+        String msg = "";
+        AddUserStatus addUserStatus = new AddUserStatus();
+        if(userService.getUser(username) != null) {
+            addUserStatus.setNotUserExist(false);
+            msg = "Login '" + username + "' is exist. ";
+        }
+        if(!password.equals(password1)) {
+            addUserStatus.setPasswordsEquals(false);
+            msg += "You must confirm password. ";
+        }
+        if(!addUserStatus.getIsValid()) {
+            model.addAttribute("msg", msg);
+            return "register";
+        }
+
+        addUserStatus = userService.addNewUser(new User(username, password));
+        if(!addUserStatus.getIsAdded()) {
+            msg = "Some problems with DB, try later. ";
+            model.addAttribute("msg", msg);
+            return "register";
+        }
+
+        msg = "Congratulations!!! You were successfully registered. Enter your new account: ";
+        model.addAttribute("msg", msg);
+        return "login";
     }
 }

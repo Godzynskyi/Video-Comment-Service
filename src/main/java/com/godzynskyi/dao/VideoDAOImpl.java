@@ -20,9 +20,12 @@ public class VideoDAOImpl implements VideoDAO {
     @Override
     public boolean addVideo(Video video) {
         try {
+            em.getTransaction().begin();
             em.persist(video);
+            em.getTransaction().commit();
             return true;
         } catch (Exception e) {
+            if(em.getTransaction().isActive()) em.getTransaction().rollback();
             e.printStackTrace();
             return false;
         }
@@ -32,7 +35,7 @@ public class VideoDAOImpl implements VideoDAO {
     public Video addVideo(String url) {
         try {
             Video video = new Video(url);
-            em.persist(video);
+            addVideo(video);
             return video;
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,8 +50,10 @@ public class VideoDAOImpl implements VideoDAO {
 
     @Override
     public Video getVideo(String url) {
-        Query query = em.createQuery("SELECT v FROM Video v WHERE v.url= \"" + url + "\"");
+        Query query = em.createQuery("SELECT v FROM Video v WHERE v.url= :url");
+        query.setParameter("url", url);
         List<Video> list = (List<Video>) query.getResultList();
+        if(list.size() == 0) return null;
         return list.get(0);
     }
 }

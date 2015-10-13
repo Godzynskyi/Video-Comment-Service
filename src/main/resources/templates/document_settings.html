@@ -5,31 +5,35 @@
     <title></title>
 </head>
 <body>
-<form action="/change_doc" method="post">
+<h1 th:text="${document.title}">DOCUMENT</h1>
+<br/>
+<form action="/set_doc/change_doc" method="post">
     <table>
         <tr>
             <td>Name of document:</td>
-            <td><input type="text" size="55" name="title" th:value="${document.title}"/></td>
+            <td><input type="text" size="51" name="title" th:value="${document.title}"/></td>
         </tr>
         <tr>
             <td>Description:</td>
-            <td><textarea rows="10" cols="45" name="description" th:value="${document.description}"></textarea></td>
+            <td><textarea rows="10" cols="45" name="description" th:text="${document.description}"></textarea></td>
         </tr>
         <tr>
             <td>Status:</td>
             <td>
-                <input type="radio" name="status" value="PUBLIC" th:selected="${document.status = 'PUBLIC'}"/> PUBLIC <br/>
-                <input type="radio" name="status" value="PRIVATE" th:selected="${document.status = 'PRIVATE'}"/> PRIVATE
+                <input type="radio" name="status" value="PUBLIC" th:checked="${#strings.toString(document.status) == 'PUBLIC'}"/> PUBLIC <br/>
+                <input type="radio" name="status" value="PRIVATE" th:checked="${#strings.toString(document.status) == 'PRIVATE'}"/> PRIVATE
             </td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" name="submit" value="Save changes"/></td>
+            <td>
+                <input type="submit" name="submit" value="Save changes"/>
+                <a th:href="'/set_doc/deldoc?id=' + ${document.id}">Delete document</a>
+            </td>
         </tr>
     </table>
     <input type="hidden" name="docId" th:value="${document.id}" />
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
 </form>
 
 <div th:unless="${#lists.isEmpty(credentials)}">
@@ -37,14 +41,22 @@
     <table>
         <tr th:each="cred : ${credentials}">
                 <td>
-                    <h2 th:text="${cred.user}">User1</h2>
+                    <h2 th:text="${cred.user.login}">User1</h2>
                 </td>
                 <td>
-                    <form action="/change_cred" method="POST">
-                        <input type="radio" name="credential" value="READ" th:selected="${cred.credentials = 'READ'}"/> READ
-                        <input type="radio" name="credential" value="WRITE" th:selected="${cred.credentials = 'WRITE'}"/> WRITE
-                        <input type="radio" name="credential" value="ADMIN" th:selected="${cred.credentials = 'ADMIN'}"/> ADMIN
+                    <form action="/set_doc/edit_cred" method="POST">
+                        <input type="radio" name="credential" value="READ" th:checked="${#strings.toString(cred.credentials) == 'READ'}"/> READ
+                        <input type="radio" name="credential" value="WRITE" th:checked="${#strings.toString(cred.credentials) == 'WRITE'}"/> WRITE
+                        <input type="radio" name="credential" value="ADMIN" th:checked="${#strings.toString(cred.credentials) == 'ADMIN'}"/> ADMIN
                         <input type="submit" name="submit" value="Change"/>
+                        <input type="hidden" name="docId" th:value="${document.id}"/>
+                        <input type="hidden" name="userId" th:value="${cred.user.id}"/>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </form>
+                </td>
+                <td>
+                    <form action="/set_doc/del_cred" method="POST">
+                        <input type="submit" name="submit" value="Delete"/>
                         <input type="hidden" name="docId" th:value="${document.id}"/>
                         <input type="hidden" name="userId" th:value="${cred.user.id}"/>
                         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -54,10 +66,10 @@
     </table>
 </div>
 
-<form action="/add_cred" method="POST">
+<form action="/set_doc/add_cred" method="POST">
     USER: <br/>
     <input type="text" name="username" />
-    <input type="radio" name="credential" value="READ" selected="true"/> READ
+    <input type="radio" name="credential" value="READ"  checked="true"/> READ
     <input type="radio" name="credential" value="WRITE" /> WRITE
     <input type="radio" name="credential" value="ADMIN" /> ADMIN
     <input type="submit" name="submit" value="ADD"/>

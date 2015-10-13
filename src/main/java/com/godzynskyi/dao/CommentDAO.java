@@ -1,6 +1,7 @@
 package com.godzynskyi.dao;
 
 import com.godzynskyi.domain.Comment;
+import com.godzynskyi.domain.Document;
 
 import java.util.List;
 
@@ -9,11 +10,11 @@ import java.util.List;
  */
 public interface CommentDAO {
 
-    boolean addComment(Comment comment);
+    boolean addComment(Comment comment, int position);
     Comment getComment(long id);
 
-    List<Comment> getCommentsFromIndex(long documentId, int index);
     boolean changeComment(Comment comment);
     boolean removeComment(Comment comment);
+    List<Comment> getComments(long docId);
 
 }

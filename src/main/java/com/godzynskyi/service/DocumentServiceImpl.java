@@ -26,6 +26,7 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public Document getDocument(long id) {
         Document res = documentDao.getDocument(id);
+        if(res == null) return null;
         List<Comment> comments = res.getComments();
         Collections.sort(comments);
         res.setComments(comments);
@@ -45,5 +46,10 @@ public class DocumentServiceImpl implements DocumentService {
     @Override
     public boolean deleteDocument(Document document) {
         return documentDao.deleteDocument(document);
+    }
+
+    @Override
+    public boolean update(Document document) {
+        return documentDao.updateDocument(document);
     }
 }

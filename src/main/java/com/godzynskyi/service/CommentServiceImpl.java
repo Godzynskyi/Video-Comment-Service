@@ -18,13 +18,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentDAO commentDAO;
 
     @Override
-    public boolean createComment(Comment comment) {
-            List<Comment> commentsFromIndex = commentDAO.getCommentsFromIndex(comment.getDocument().getId(), comment.getIndex());
-            for(Comment c: commentsFromIndex) {
-                c.incrementIndex();
-                commentDAO.changeComment(c);
-            }
-            return commentDAO.addComment(comment);
+    public boolean createComment(Comment comment, int position) {
+            return commentDAO.addComment(comment, position);
     }
 
     @Override
@@ -40,5 +35,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public boolean removeComment(Comment comment) {
         return commentDAO.removeComment(comment);
+    }
+
+    @Override
+    public List<Comment> getComments(long docId) {
+
+        return commentDAO.getComments(docId);
     }
 }
