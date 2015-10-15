@@ -5,7 +5,8 @@
     <title></title>
 </head>
 <body>
-<h1 th:text="${document.title}">DOCUMENT</h1>
+<h1 href="/">Main menu</h1>
+<h1 th:href="'/doc?id=' + ${document.id}" th:text="${document.title}">DOCUMENT</h1>
 <br/>
 <form action="/set_doc/change_doc" method="post">
     <table>

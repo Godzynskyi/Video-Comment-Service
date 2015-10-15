@@ -8,7 +8,7 @@
 
 
 
-<a href="/create_document">Create new list of comment</a>
+<a href="/create_document">Create new document of comments</a>
 <br/>
 
 <div th:unless="${#lists.isEmpty(myDocuments)}">
@@ -32,7 +32,10 @@
     <h2>Documents that I have credentials:</h2>
     <table>
         <tr th:each="cred : ${myDocumentCredentials}">
-            <td th:text="${cred.document.title}"></td>
+            <td>
+                <a th:href="'/doc?id=' + ${cred.document.id}" th:text="${cred.document.title}">credDocument</a><br/>
+                <a th:href="'/set_doc/' + ${cred.document.id}" th:if="${#strings.toString(cred.credentials) == 'ADMIN'}">Settings</a>
+            </td>
             <td th:text="${cred.credentials}"></td>
         </tr>
     </table>

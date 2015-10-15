@@ -26,4 +26,8 @@ public class Video {
 
     public Video() {
     }
+
+    public String getUrl() {
+        return url;
+    }
 }

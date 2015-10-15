@@ -1,0 +1,24 @@
+.h1 {
+    padding-left: 5pt;
+    font-size: 30pt;
+}
+.h2 {
+    padding-left: 15pt;
+    font-size: 20pt;
+}
+.h3 {
+    padding-left: 25pt;
+    font-size: 16pt;
+}
+.h4 {
+    padding-left: 35pt;
+    font-size: 14pt;
+}
+.h5 {
+    padding-left: 40pt;
+    font-size: 12pt;
+}
+.h6 {
+    padding-left: 45pt;
+    font-size: 10pt;
+}

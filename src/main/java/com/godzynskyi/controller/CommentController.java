@@ -19,7 +19,7 @@ import java.util.List;
 public class CommentController {
 
     @Autowired
-    private static UserDocumentCredentialsService userDocumentCredentialsService;
+    private UserDocumentCredentialsService userDocumentCredentialsService;
     @Autowired
     private UserService userService;
     @Autowired
@@ -37,7 +37,7 @@ public class CommentController {
         Document document = documentService.getDocument(docId);
 
         String credentials = credentials(user, document);
-        if(credentials.equals("NO")) return new ModelAndView("redirect:/403");
+        if(credentials == null) return new ModelAndView("redirect:/403");
 
         List<Comment> comments = commentService.getComments(docId);
 
@@ -63,7 +63,7 @@ public class CommentController {
         Document document = documentService.getDocument(docId);
 
         String credentials = credentials(user, document);
-        if(credentials.equals("NO") || credentials.equals("READ")) return "redirect:/403";
+        if(credentials == null || credentials.equals("READ")) return "redirect:/403";
 
         Video video = videoService.getVideo(url);
 
@@ -78,15 +78,26 @@ public class CommentController {
         return "redirect:/doc?id=" + docId;
     }
 
-    private static String credentials(User user, Document document) {
-        if(user == null || document ==null) return "NO";
+    private String credentials(User user, Document document) {
+        if(document==null) return null;
+            if(user == null) {
+                if(document.getStatus() == Status.PRIVATE) return null; else return "READ";
+            }
         if(user.getRoles().contains(UserRole.ADMIN_ROLE)) return "ADMIN";
         if(document.getOwner().getId() == user.getId()) return "ADMIN";
         Credentials credentials = userDocumentCredentialsService.getCredentials(user.getId(), document.getId());
-        if(credentials == null) return "NO";
-        if(credentials == Credentials.ADMIN) return "ADMIN";
-        if(credentials == Credentials.WRITE) return "WRITE";
-        if(credentials == Credentials.READ) return "READ";
-        return "NO";
+        if(credentials == null) {
+            if(document.getStatus() == Status.PRIVATE) return null; else return "READ";
+        }
+        switch (credentials) {
+            case ADMIN:
+                return "ADMIN";
+            case WRITE:
+                return "WRITE";
+            case READ:
+                return "READ";
+            default:
+                return null;
+        }
     }
 }
